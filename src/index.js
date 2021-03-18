@@ -67,15 +67,15 @@ app.delete('/repositories/:id', checksRepositoryExists, (request, response) => {
 app.post('/repositories/:id/like', (request, response) => {
   const { id } = request.params
 
-  repositoryIndex = repositories.findIndex(repository => repository.id === id)
+  const repositoryIndex = repositories.findIndex(repository => repository.id === id)
 
   if (repositoryIndex < 0) {
     return response.status(404).json({ error: 'Repository not found' })
   }
 
-  const likes = ++repositories[repositoryIndex].likes
+  repositories[repositoryIndex].likes += 1
 
-  return response.json('likes')
+  return response.json(repositories[repositoryIndex])
 })
 
 module.exports = app
