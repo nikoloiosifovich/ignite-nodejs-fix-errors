@@ -56,16 +56,10 @@ app.put('/repositories/:id', checksRepositoryExists, (request, response) => {
   return response.json(repository)
 })
 
-app.delete('/repositories/:id', (request, response) => {
-  const { id } = request.params
+app.delete('/repositories/:id', checksRepositoryExists, (request, response) => {
+  const { repository } = request
 
-  const repositoryIndex = repositories.findIndex(repository => repository.id === id)
-
-  if (repositoryIndex < 0) {
-    return response.status(404).json({ error: 'Repository not found' })
-  }
-
-  repositories.splice(repositoryIndex, 1)
+  repositories.splice(repositories.indexOf(repository), 1)
 
   return response.status(204).send()
 })
